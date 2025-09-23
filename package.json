@@ -1,0 +1,13 @@
+{
+  "name": "monorepo-root",
+  "version": "1.0.0",
+  "description": "Root package for client and server monorepo",
+  "main": "index.js",
+  "scripts": {
+    "dev": "bash scripts/monorepo-dev.sh",
+    "postinstall": "pnpm --filter server-nest prisma:generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
