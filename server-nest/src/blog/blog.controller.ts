@@ -15,7 +15,7 @@ import { NewBlogDto } from 'src/dtos/new-blog.dto';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { BlogService } from './blog.service';
 
-@Controller('blog')
+@Controller('/api/blog')
 @UseGuards(AuthenticatedGuard)
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
