@@ -7,26 +7,25 @@ import {
   ParseIntPipe,
   Post,
   Req,
-  Res,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { type Request, type Response } from 'express';
+import { type Request } from 'express';
 import { NewBlogDto } from 'src/dtos/new-blog.dto';
 import { AuthenticatedGuard } from '../auth/authenticated.guard';
 import { BlogService } from './blog.service';
+import { BlogCacheInterceptor } from './blog-cache.interceptor';
 
 @Controller('/api/blog')
 @UseGuards(AuthenticatedGuard)
+@UseInterceptors(BlogCacheInterceptor)
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
   @Get('/')
-  async blogs(@Req() req: Request, @Res() res: Response) {
-    if (!req.user) {
-      return res.redirect('/auth/google');
-    }
-    const blogs = await this.blogService.getBlogs(req.user.id);
-    res.send({ blogs });
+  async blogs(@Req() req: Request) {
+    const blogs = await this.blogService.getBlogs(req.user!.id);
+    return { blogs };
   }
 
   @Post('/')
